@@ -1,5 +1,3 @@
-
-
 #include <glfw3.h>
 #include <stb_image.h>
 
@@ -8,10 +6,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Other includes
+#include "ManagerModel.h"
 #include "Shader.h"
 #include "Camera.h"
 
 #include <iostream>
+
+using namespace NGeometry3d;
+
+Model model_("boggie/body.obj");
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -27,7 +30,7 @@ const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(1.84723f, 5.085f, 92.333f));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -43,14 +46,11 @@ int main()
 {
 	// glfw: initialize and configure
 	// ------------------------------
+	model_.to_box(BoundingBox(Point(0, 0, 0), Point(1, 1, 1)));
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
-#endif
 
 	// glfw window creation
 	// --------------------
@@ -250,24 +250,26 @@ void renderScene(const Shader& shader)
 	shader.setMat4("model", model);
 	glBindVertexArray(planeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	//renderQuad();
 	// cubes
-	model = glm::mat4(1.0f);
+    /*model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	shader.setMat4("model", model);
-	renderCube();
+	renderCube();*/
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-	model = glm::scale(model, glm::vec3(0.5f));
+	model = glm::translate(model, glm::vec3(1.85f, 0.0f, 0.6f));
+	model = glm::scale(model, glm::vec3(0.125f));
 	shader.setMat4("model", model);
 	renderCube();
+	static float angle = 45.0f;
+	angle += 1;
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-	model = glm::scale(model, glm::vec3(0.25));
+	model = glm::translate(model, glm::vec3(1.6f, 0.15f, 0.4f));
+	model = glm::rotate(model, glm::radians(angle), glm::normalize(glm::vec3(1.0, 1.0, 0.0)));
+	model = glm::scale(model, glm::vec3(0.09));
 	shader.setMat4("model", model);
 	renderCube();
+	
 }
 
 
@@ -393,6 +395,10 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+		camera.ProcessKeyboard(UP, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+		camera.ProcessKeyboard(DOWN, deltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

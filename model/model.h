@@ -1,15 +1,31 @@
 #pragma once
-#include "../point/point.h"
+#include <vector>
 
 namespace NGeometry3d {
-    struct BoundingBox {
-        Point ld;
-        Point ru;
-        BoundingBox(const Point& ld, const Point& ru);
-        BoundingBox(const BoundingBox& b);
-        Point center() const;
-        FLOAT_TYPE size(int i) const;
-    };
+	using std::vector;
+	typedef double FLOAT_TYPE;
+	class Point {
+		FLOAT_TYPE x, y, z;
+	public:
+		Point();
+		Point(FLOAT_TYPE x, FLOAT_TYPE y, FLOAT_TYPE z);
+		Point(const Point& p);
+		Point operator+(const Point& p) const;
+		FLOAT_TYPE& operator[](int i);
+		Point operator*(FLOAT_TYPE k) const;
+		FLOAT_TYPE operator[](int i) const;
+		Point norm() const;
+	};
+	struct BoundingBox {
+		Point ld;
+		Point ru;
+		BoundingBox();
+		BoundingBox(const Point& ld, const Point& ru);
+		BoundingBox(const BoundingBox& b);
+		Point operator[](int i) const;
+		Point center() const;
+		FLOAT_TYPE size(int i) const;
+	};
     struct Info {
         Point sun;
     };
@@ -40,9 +56,6 @@ namespace NGeometry3d {
         Point get_vertex(int i) const;
         Point get_normal(int i) const;
         Triple get_triangle(int i) const;
-        BoundingBox get_box() const;
+		BoundingBox get_box() const;
     };
-    NMatrix::Matrix matrix_scale(const Point&, FLOAT_TYPE);
-    NMatrix::Matrix matrix_translate(const Point& p);
-    NMatrix::Matrix matrix_rotate(FLOAT_TYPE angle, int num);
 };

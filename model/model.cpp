@@ -1,134 +1,154 @@
 #include "model.h"
-#include "../../../bonka/include/all.h"
-#include "../../../bonka/error/error.h"
-#include "../../../bonka/debug/debug.h"
 
+#include <string>
 #include <fstream>
 #include <cmath>
+#include <iostream>
 
 namespace NGeometry3d {
     #define dmax(a, b) (((a) < (b)) ? (b) : (a))
-    BoundingBox::BoundingBox(const Point& l, const Point& r) : ld(l), ru(r) { }
+	#define dmin(a, b) (((a) > (b)) ? (b) : (a))
+
+	using std::string;
+
+	Point::Point() : x{}, y{}, z{} { }
+	Point::Point(FLOAT_TYPE x, FLOAT_TYPE y, FLOAT_TYPE z) : x(x), y(y), z(z) { }
+	Point::Point(const Point& p) : x(p.x), y(p.y), z(p.z) { }
+
+	Point Point::operator+(const Point& p) const {
+		return Point(x + p.x, y + p.y, z + p.z);
+	}
+	FLOAT_TYPE& Point::operator[](int i) {
+		return *(vector<FLOAT_TYPE*>{&x, &y, &z} [i] );
+	}
+	FLOAT_TYPE Point::operator[]( int i) const {
+		return (vector<FLOAT_TYPE>{x, y, z}[i] );
+	}
+	Point Point::operator*(FLOAT_TYPE k) const {
+		return Point(x * k, y * k, z * k);
+	}
+	Point Point::norm() const {
+		FLOAT_TYPE len = std::sqrt(x * x + y * y + z * z);
+		return (*this) * (1.0 / len);
+	}
+
+	BoundingBox::BoundingBox(const Point& l, const Point& r) : ld(l), ru(r) { }
     BoundingBox::BoundingBox(const BoundingBox& b) : ld(b.ld), ru(b.ru) { }
     Point BoundingBox::center() const {
         return (ld + ru) * 0.5;
     }
+	Point BoundingBox::operator[](int i) const {
+		return vector<Point>({ ld, ru })[i];
+	}
     FLOAT_TYPE BoundingBox::size(int i) const {
         return ru[i] - ld[i];
-    }
-    NMatrix::Matrix matrix_scale(const Point& p, FLOAT_TYPE k) {
-        NMatrix::Matrix answer(4);
-        answer[0][0] = answer[1][1] = answer[2][2] = k;
-        return matrix_translate(p) * answer * matrix_translate(p * -1);
-    }
-    NMatrix::Matrix matrix_rotate(FLOAT_TYPE angle, int num) {
-        if (num < 0 || num >= 3) {
-            throw NError::Error("impossible make rotation near this direction");
-        }
-        FLOAT_TYPE c = std::cos(angle);
-        FLOAT_TYPE s = std::sin(angle);
-        NMatrix::Matrix answer(4);
-        vector<int> coords = {0, 1, 2};
-        coords.erase(coords.begin() + num);
-
-        answer[coords[0]][coords[0]] = c;
-        answer[coords[1]][coords[1]] = c;
-
-        answer[coords[0]][coords[1]] = -s;
-        answer[coords[1]][coords[0]] = s;
-
-        return answer;
-    }
-    NMatrix::Matrix matrix_translate(const Point& p) {
-        return NMatrix::Matrix({
-            {1, 0, 0, p[0]},
-            {0, 1, 0, p[1]},
-            {0, 0, 1, p[2]},
-            {0, 0, 0,   1 },
-        });
     }
     Triple::Triple() : first{}, second{}, third{} { }
     Triple::Triple(int f, int s, int t) : first(f), second(s), third(t) { }
     Triple::Triple(const Triple& t) : first(t.first), second(t.second), third(t.third) { }
 
+	vector<string> split(const string& s, char del) {
+		vector<string> ans;
+		string cur;
+		for (auto el : s) {
+			if (el == del) {
+				if (!cur.empty())
+					ans.push_back(cur);
+				cur.clear();
+				continue;
+			}
+			cur.push_back(el);
+		}
+		if (!cur.empty())
+			ans.push_back(cur);
+		return ans;
+	}
+
+	double to_double(const string& s) {
+		return atof(s.c_str());
+	}
+
+	int to_int(const string& s) {
+		return atoi(s.c_str());
+	}
+
     Model::Model() : vertexes{}, normals{}, triangles{} { }
     Model::Model(const char* filename) {
-        FILE* file = fopen(filename, "r");
+		FILE* file;
+		fopen_s(&file, filename, "r");
         enum { MAX_LEN_STRING = 100 };
         char str[MAX_LEN_STRING + 1];
         while (fgets(str, MAX_LEN_STRING, file)) {
             static int cnt = 0;
-            auto splt = std::split(string(str), ' ');
+            auto splt = split(string(str), ' ');
             if (splt.empty() || splt[0] == "#") { continue; }
             if (splt[0] == "v") {
-                FLOAT_TYPE x = std::to_double(splt[1]);
-                FLOAT_TYPE y = std::to_double(splt[2]);
-                FLOAT_TYPE z = std::to_double(splt[3]);
+                FLOAT_TYPE x = to_double(splt[1]);
+                FLOAT_TYPE y = to_double(splt[2]);
+                FLOAT_TYPE z = to_double(splt[3]);
                 vertexes.push_back(Point(x, y, z));
             } else if (splt[0] == "vn") {
-                FLOAT_TYPE x = std::to_double(splt[1]);
-                FLOAT_TYPE y = std::to_double(splt[2]);
-                FLOAT_TYPE z = std::to_double(splt[3]);
+                FLOAT_TYPE x = to_double(splt[1]);
+                FLOAT_TYPE y = to_double(splt[2]);
+                FLOAT_TYPE z = to_double(splt[3]);
                 normals.push_back(Point(x, y, z).norm());
             } else if (splt[0] == "f") {
                 triangles.push_back(Triple(
-                    std::to_int(std::split(splt[1], '/')[0]) - 1,
-                    std::to_int(std::split(splt[2], '/')[0]) - 1,
-                    std::to_int(std::split(splt[3], '/')[0]) - 1
+                    to_int(split(splt[1], '/')[0]) - 1,
+                    to_int(split(splt[2], '/')[0]) - 1,
+                    to_int(split(splt[3], '/')[0]) - 1
                 ));
             }
         }
         if (normals.size() != vertexes.size()) {
-            throw NError::Error("count of normals not equal count of vertexes");
+            throw ("count of normals not equal count of vertexes");
         }
-    }
+	}
     Model::Model(const Model& m) : vertexes(m.vertexes), normals(m.normals), triangles(m.triangles) { }
     void Model::to_box(const BoundingBox& box) {
-        BoundingBox b = get_box();
+        /*BoundingBox b = get_box();
         FLOAT_TYPE s[] = {box.size(0) / b.size(0), box.size(1) / b.size(1), box.size(2) / b.size(2)};
-        this->scale(b.center(), std::min(s[0], std::min(s[1], s[2])));
+        this->scale(b.center(), dmin(s[0], dmin(s[1], s[2])));
         this->translate(box.center() - b.center());
+		*/
     }
     void Model::translate(const Point& p) {
-        NMatrix::Matrix tr = matrix_translate(p);
+        /*NMatrix::Matrix tr = matrix_translate(p);
         for (size_t i = 0; i < vertexes.size(); ++i) {
             vertexes[i] = tr * NMatrix::Matrix(vertexes[i]);
         }
+		*/
     }
     void Model::rotate(const Point& p, FLOAT_TYPE angle, int num) {
-        this->translate(p * -1);
+        /*this->translate(p * -1);
         NMatrix::Matrix m = matrix_rotate(angle, num);
         for (size_t i = 0; i < vertexes.size(); ++i) {
             vertexes[i] = m * NMatrix::Matrix(vertexes[i]);
             normals[i] = m * NMatrix::Matrix(normals[i]);
         }
         this->translate(p);
+		*/
     }
     void Model::scale(const Point& p, FLOAT_TYPE k) {
-        NMatrix::Matrix tr = matrix_scale(p, k);
+        /*NMatrix::Matrix tr = matrix_scale(p, k);
         for (size_t i = 0; i < vertexes.size(); ++i) {
             vertexes[i] = tr * NMatrix::Matrix(vertexes[i]);
         }
+		*/
     }
     void Model::show() const {
-        debug("vertexes");
-        for (size_t i = 0; i < vertexes.size(); ++i)
-            debug(vertexes[i][0], vertexes[i][1], vertexes[i][2]);
-        debug("normals");
-        for (size_t i = 0; i < normals.size(); ++i)
-            debug(normals[i][0], normals[i][1], normals[i][2]);
     }
     BoundingBox Model::get_box() const {
         Point ld = vertexes[0], ru = vertexes[0];
         for (auto vert : vertexes) {
-            ld[0] = std::min(ld[0], vert[0]);
-            ld[1] = std::min(ld[1], vert[1]);
-            ld[2] = std::min(ld[2], vert[2]);
+            ld[0] = dmin(ld[0], vert[0]);
+            ld[1] = dmin(ld[1], vert[1]);
+            ld[2] = dmin(ld[2], vert[2]);
         }
         for (auto vert : vertexes) {
-            ru[0] = std::max(ru[0], vert[0]);
-            ru[1] = std::max(ru[1], vert[1]);
-            ru[2] = std::max(ru[2], vert[2]);
+            ru[0] = dmax(ru[0], vert[0]);
+            ru[1] = dmax(ru[1], vert[1]);
+            ru[2] = dmax(ru[2], vert[2]);
         }
         return BoundingBox(ld, ru);
     }

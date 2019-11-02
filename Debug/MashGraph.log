@@ -1,0 +1,38 @@
+﻿  main.cpp
+  GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: rotate_slow function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: infinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: tweakedInfinitePerspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: roll function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: pitch function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: yaw function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: angle function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  GLM: angleAxis function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+C:\Users\Xiaomi\source\repos\Includes\glad\glad.h(367,1): warning C4005: GL_ALL_ATTRIB_BITS: изменение макроопределения
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\GL\gl.h(107): message : см. предыдущее определение "GL_ALL_ATTRIB_BITS"
+C:\Users\Xiaomi\source\repos\Includes\glad\glad.h(370,1): warning C4005: GL_CLIENT_ALL_ATTRIB_BITS: изменение макроопределения
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\GL\gl.h(973): message : см. предыдущее определение "GL_CLIENT_ALL_ATTRIB_BITS"
+C:\Users\Xiaomi\source\repos\Includes\glad\glad.h(468,1): warning C4005: GL_LOGIC_OP: изменение макроопределения
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\GL\gl.h(1152): message : см. предыдущее определение "GL_LOGIC_OP"
+C:\Users\Xiaomi\source\repos\Includes\glad\glad.h(576,1): warning C4005: GL_TEXTURE_COMPONENTS: изменение макроопределения
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\GL\gl.h(1153): message : см. предыдущее определение "GL_TEXTURE_COMPONENTS"
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(164,22): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(269,42): warning C4305: аргумент: усечение из "double" в "const T"
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(269,42): warning C4305:         with
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(269,42): warning C4305:         [
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(269,42): warning C4305:             T=float
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(269,42): warning C4305:         ]
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(389,20): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(420,11): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(421,11): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(425,16): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(426,16): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(428,10): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(429,10): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(438,28): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(438,28): warning C4244: GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+C:\Users\Xiaomi\source\repos\MashGraph\MashGraph\main.cpp(438,28): warning C4244: GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  MashGraph.vcxproj -> C:\Users\Xiaomi\source\repos\MashGraph\Debug\MashGraph.exe
