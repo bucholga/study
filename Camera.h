@@ -51,7 +51,6 @@ public:
 		Yaw = yaw;
 		Pitch = pitch;
 		updateCameraVectors();
-		Front = glm::vec3(0.0015, -0.0566928, -0.998391);
 	}
 	// Constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -61,7 +60,6 @@ public:
 		Yaw = yaw;
 		Pitch = pitch;
 		updateCameraVectors();
-		Front = glm::vec3(0.0015, -0.0566928, -0.998391);
 	}
 
 	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
@@ -86,7 +84,6 @@ public:
 			Position += Up * (velocity / 5.0f);
 		if (direction == DOWN)
 			Position -= Up * (velocity / 5.0f);
-		std::cout << Position[0] << ' ' << Position[1] << ' ' << Position[2] << ' ' << Front[0] << ' ' << Front[1] << ' ' << Front[2] << std::endl;
 	}
 
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

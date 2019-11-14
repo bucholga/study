@@ -39,6 +39,13 @@
     <None Include="3.1.2.shadow_mapping_depth.fs" />
     <None Include="3.1.2.debug_quad.vs" />
     <None Include="3.1.2.debug_quad_depth.fs" />
+    <None Include="vertex_fur.vs" />
+    <None Include="fragment_fur.fs" />
+    <None Include="2.stencil_testing.vs" />
+    <None Include="2.stencil_testing.fs" />
+    <None Include="2.stencil_single_color.fs" />
+    <None Include="cube.vs" />
+    <None Include="cube.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

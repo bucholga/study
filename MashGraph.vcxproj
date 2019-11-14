@@ -133,14 +133,21 @@
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="2.stencil_single_color.fs" />
+    <None Include="2.stencil_testing.fs" />
+    <None Include="2.stencil_testing.vs" />
     <None Include="3.1.2.debug_quad.vs" />
     <None Include="3.1.2.debug_quad_depth.fs" />
     <None Include="3.1.2.shadow_mapping.fs" />
     <None Include="3.1.2.shadow_mapping.vs" />
     <None Include="3.1.2.shadow_mapping_depth.fs" />
     <None Include="3.1.2.shadow_mapping_depth.vs" />
+    <None Include="cube.frag" />
+    <None Include="cube.vs" />
+    <None Include="fragment_fur.fs" />
     <None Include="fragment_lamp.frag" />
     <None Include="fragment_shader.frag" />
+    <None Include="vertex_fur.vs" />
     <None Include="vertex_lamp.vs" />
     <None Include="vertex_shader.vs" />
   </ItemGroup>
